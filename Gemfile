@@ -33,4 +33,5 @@ group :development, :test do
   gem 'pry-stack_explorer'
   gem 'rspec-rails'
   gem 'rubocop'
+  gem 'simplecov'
 end
