@@ -2,7 +2,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: andromeda_development
+  database: survey_app_development
   pool: 5
   username: root
   password:
@@ -12,7 +12,7 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: andromeda_test
+  database: survey_app_test
   pool: 5
   username: root
   password:
