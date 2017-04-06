@@ -6,8 +6,10 @@ class CreateSurveys < ActiveRecord::Migration[5.0]
       t.integer :pass_marks
       t.integer :score
       t.datetime :taken_on
-      t.datetime :starts_from
-      t.datetime :expires_at
+      t.datetime :valid_from
+      t.datetime :valid_till
+      t.string :remaining_time
+      t.belongs_to :user
 
       t.timestamps
     end

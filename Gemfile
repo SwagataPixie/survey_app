@@ -24,4 +24,5 @@ group :development, :test do
   gem 'rubocop'
   gem 'simplecov'
   gem 'countdown'
+  gem 'simple_form'
 end

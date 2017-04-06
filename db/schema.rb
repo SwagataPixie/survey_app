@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406015622) do
+ActiveRecord::Schema.define(version: 20170406145316) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "username"
@@ -21,21 +21,29 @@ ActiveRecord::Schema.define(version: 20170406015622) do
 
   create_table "answer_times", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "survey_id"
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["question_id"], name: "index_answer_times_on_question_id", using: :btree
+    t.index ["survey_id"], name: "index_answer_times_on_survey_id", using: :btree
   end
 
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "comment"
+    t.integer  "choice_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["choice_id"], name: "index_answers_on_choice_id", using: :btree
   end
 
   create_table "choices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "content"
     t.boolean  "correct"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "question_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["question_id"], name: "index_choices_on_question_id", using: :btree
   end
 
   create_table "question_types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -46,10 +54,25 @@ ActiveRecord::Schema.define(version: 20170406015622) do
   end
 
   create_table "questions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "statement",  limit: 65535
-    t.text     "answer",     limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.text     "statement",        limit: 65535
+    t.integer  "question_type_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["question_type_id"], name: "index_questions_on_question_type_id", using: :btree
+  end
+
+  create_table "questions_surveys", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "question_id"
+    t.integer "survey_id"
+    t.index ["question_id"], name: "index_questions_surveys_on_question_id", using: :btree
+    t.index ["survey_id"], name: "index_questions_surveys_on_survey_id", using: :btree
+  end
+
+  create_table "questions_tags", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "question_id"
+    t.integer "tag_id"
+    t.index ["question_id"], name: "index_questions_tags_on_question_id", using: :btree
+    t.index ["tag_id"], name: "index_questions_tags_on_tag_id", using: :btree
   end
 
   create_table "surveys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -58,10 +81,13 @@ ActiveRecord::Schema.define(version: 20170406015622) do
     t.integer  "pass_marks"
     t.integer  "score"
     t.datetime "taken_on"
-    t.datetime "starts_from"
-    t.datetime "expires_at"
+    t.datetime "valid_from"
+    t.datetime "valid_till"
+    t.string   "remaining_time"
+    t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.index ["user_id"], name: "index_surveys_on_user_id", using: :btree
   end
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

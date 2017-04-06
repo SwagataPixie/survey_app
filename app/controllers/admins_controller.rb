@@ -1,5 +1,5 @@
 class AdminsController < ApplicationController
-  def index
+  def dashboard
   end
 
   def new_survey
