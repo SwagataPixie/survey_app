@@ -1,7 +1,21 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'csv'
+
+TABLE_NAMES = ['tags', 'question_types']
+
+def sync!
+  TABLE_NAMES.each do |table_name|
+    klass = Object.const_set(table_name.classify, Class.new(ActiveRecord::Base))
+    sync_table(klass, table_name)
+  end
+end
+
+def sync_table(klass, table_name)
+  klass.transaction do
+    csv_path = Rails.root.join('db', 'data', "#{table_name}.csv")
+    CSV.read(csv_path.to_s, { col_sep: ',', headers: true }).each do |record|
+      klass.where(record.to_hash).first_or_create
+    end
+  end
+end
+
+sync!
