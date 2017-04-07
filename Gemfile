@@ -15,6 +15,7 @@ group :development, :test do
   gem 'spring'
   gem 'bootstrap', '~> 4.0.0.alpha6'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'devise'
 
   gem 'factory_girl_rails'
   gem 'faker'

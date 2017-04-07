@@ -16,7 +16,7 @@ class AdminsController < ApplicationController
     questions =
       choose_questions_based_on_tag_and_number(params[:survey][:tag_id], params[:survey][:number_of_questions])
     survey_params = params.require(:survey)
-      .permit(:valid_from, :valid_till, :pass_marks, :time_remanining)
+      .permit(:valid_from, :valid_till, :pass_marks, :remaining_time)
     Survey.transaction do
       survey = Survey.create(survey_params)
       survey.questions << questions

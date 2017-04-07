@@ -4,7 +4,7 @@
   = f.input :tag_id, as: :select, include_blank: false, collection: @tags
   = f.input :number_of_questions, type: :number
   = f.datetime_field :valid_from
-  = f.datetime_field :vallid_till
+  = f.datetime_field :valid_till
   = f.input :pass_marks, type: :number
-  = f.input :time_remaining, type: :number
+  = f.input :remaining_time, type: :number
   = f.submit
