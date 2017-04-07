@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  # root to: 'application#index', defaults: { format: 'html' }
+  root to: 'application#index'
 
   scope :admin do
     get :dashboard, to: 'admins#dashboard'
@@ -7,7 +7,6 @@ Rails.application.routes.draw do
     post :create_survey, to: 'admins#create_survey'
     get :new_question, to: 'admins#new_question'
     post :create_question, to: 'admins#create_question'
-    get :show_survey, to: 'admins#show_survey'
     get :show_surveys, to: 'admins#show_surveys'
   end
 

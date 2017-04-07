@@ -1,4 +1,8 @@
 class AdminsController < ApplicationController
+
+  def login
+  end
+
   def dashboard
   end
 
@@ -19,12 +23,10 @@ class AdminsController < ApplicationController
       survey.user = user
       survey.save
     end
+    redirect_to dashboard_path
   end
 
-  def view_survey
-  end
-
-  def view_surveys
+  def show_surveys
     @surveys = Survey.all unless params[:taken_from]
     @surveys = Survey.where('taken_on < ?, taken_on > ?', params[:taken_from], params[:taken_to])
   end
@@ -49,12 +51,13 @@ class AdminsController < ApplicationController
   def choose_questions_based_on_tag_and_number(tag_id, number_of_questions)
     tag = Tag.find(tag_id)
     questions = tag.questions.order('RAND()').limit(number_of_questions)
-    return nil if questions.size < number_of_questions
+    return nil if questions.size < number_of_questions.to_i
     return questions
   end
 
   def handle_user(email, name=nil)
     user = User.where(email: email).first_or_create
     user.update_attributes(name: name)
+    return user
   end
 end

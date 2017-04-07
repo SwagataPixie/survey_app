@@ -4,4 +4,5 @@ class Question < ApplicationRecord
   belongs_to :question_type
   has_many :answer_times, through: :surveys
   has_many :choices
+  has_many :answers
 end

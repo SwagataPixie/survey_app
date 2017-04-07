@@ -4,6 +4,7 @@ class Survey < ApplicationRecord
   has_many :surveys
   has_and_belongs_to_many :questions
   has_many :answer_times, through: :questions
+  has_many :answers
 
   after_commit :number_of_questions_attempted, :passed?, :state
 
@@ -22,6 +23,7 @@ class Survey < ApplicationRecord
       correct_choice_ids = question.choices.where(correct: true).pluck(:id)
       score += 1 if choice_ids_for_answer == correct_choice_ids
     end
+    score
   end
 
   def state
