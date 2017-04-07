@@ -1,5 +1,18 @@
-= simple_form_for :quesion, url: create_question_path do |f|
-  = f.text_field :statement
-  = f.simple_fields_for :choices do |choice|
+= simple_form_for :question, url: create_question_path do |f|
+  = f.input :statement, as: :text
+  = f.simple_fields_for :choice_1 do |choice|
     = choice.input :content
     = choice.input :correct, as: :radio_buttons
+  = f.simple_fields_for :choice_2 do |choice|
+    = choice.input :content
+    = choice.input :correct, as: :radio_buttons
+  = f.simple_fields_for :choice_3 do |choice|
+    = choice.input :content
+    = choice.input :correct, as: :radio_buttons
+  = f.simple_fields_for :choice_4 do |choice|
+    = choice.input :content
+    = choice.input :correct, as: :radio_buttons
+  = f.input :question_type_id, as: :select, include_blank: false, collection: @question_types,
+    input_html: { id: 'question_type' }
+  = f.select :tag_id, @tags, multiple: true, id: 'tags'
+  = f.submit

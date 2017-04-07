@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   scope :admin do
     get :dashboard, to: 'admins#dashboard'
     get :new_survey, to: 'admins#new_survey'
-    post :create_survey, to: 'admins#update_survey'
+    post :create_survey, to: 'admins#create_survey'
     get :new_question, to: 'admins#new_question'
-    post :create_question, to: 'admins#update_question'
+    post :create_question, to: 'admins#create_question'
     get :show_survey, to: 'admins#show_survey'
     get :show_surveys, to: 'admins#show_surveys'
   end
