@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170406145316) do
+ActiveRecord::Schema.define(version: 20170407104620) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "username"
@@ -32,9 +32,13 @@ ActiveRecord::Schema.define(version: 20170406145316) do
   create_table "answers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "comment"
     t.integer  "choice_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "question_id"
+    t.integer  "survey_id"
     t.index ["choice_id"], name: "index_answers_on_choice_id", using: :btree
+    t.index ["question_id"], name: "index_answers_on_question_id", using: :btree
+    t.index ["survey_id"], name: "index_answers_on_survey_id", using: :btree
   end
 
   create_table "choices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -76,7 +80,6 @@ ActiveRecord::Schema.define(version: 20170406145316) do
   end
 
   create_table "surveys", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "type"
     t.integer  "number_of_question"
     t.integer  "pass_marks"
     t.integer  "score"
@@ -87,6 +90,8 @@ ActiveRecord::Schema.define(version: 20170406145316) do
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "tag_id"
+    t.index ["tag_id"], name: "index_surveys_on_tag_id", using: :btree
     t.index ["user_id"], name: "index_surveys_on_user_id", using: :btree
   end
 

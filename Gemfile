@@ -13,6 +13,7 @@ gem 'mysql2', '0.3.20'
 group :development, :test do
   gem 'byebug'
   gem 'spring'
+  gem 'bootstrap', '~> 4.0.0.alpha6'
   gem 'spring-watcher-listen', '~> 2.0.0'
 
   gem 'factory_girl_rails'

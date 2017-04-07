@@ -14,5 +14,5 @@
     = choice.input :correct, as: :radio_buttons
   = f.input :question_type_id, as: :select, include_blank: false, collection: @question_types,
     input_html: { id: 'question_type' }
-  = f.select :tag_id, @tags, multiple: true, id: 'tags'
+  = f.select :tag_id, @tags, multiple: true, id: 'tags' #There's a plugin select-2.
   = f.submit

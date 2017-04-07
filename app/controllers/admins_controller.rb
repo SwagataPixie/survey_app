@@ -3,16 +3,30 @@ class AdminsController < ApplicationController
   end
 
   def new_survey
+    @tags = Tag.pluck(:name, :id)
   end
 
   def create_survey
-    @tags = Tag.pluck(:name, :id)
+    return false unless params[:survey]
+    user = handle_user(params[:survey][:user_email], params[:survey][:user_name])
+    questions =
+      choose_questions_based_on_tag_and_number(params[:survey][:tag_id], params[:survey][:number_of_questions])
+    survey_params = params.require(:survey)
+      .permit(:valid_from, :valid_till, :pass_marks, :time_remanining)
+    Survey.transaction do
+      survey = Survey.create(survey_params)
+      survey.questions << questions
+      survey.user = user
+      survey.save
+    end
   end
 
   def view_survey
   end
 
   def view_surveys
+    @surveys = Survey.all unless params[:taken_from]
+    @surveys = Survey.where('taken_on < ?, taken_on > ?', params[:taken_from], params[:taken_to])
   end
 
   def new_question
@@ -28,5 +42,19 @@ class AdminsController < ApplicationController
     end
     question.tags << Tag.find(params[:question][:tag_id])
     redirect_to dashboard_path
+  end
+
+  private
+
+  def choose_questions_based_on_tag_and_number(tag_id, number_of_questions)
+    tag = Tag.find(tag_id)
+    questions = tag.questions.order('RAND()').limit(number_of_questions)
+    return nil if questions.size < number_of_questions
+    return questions
+  end
+
+  def handle_user(email, name=nil)
+    user = User.where(email: email).first_or_create
+    user.update_attributes(name: name)
   end
 end

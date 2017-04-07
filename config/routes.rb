@@ -14,12 +14,10 @@ Rails.application.routes.draw do
   resources :survey, only: [:show] do
     member do
       post :update
-    end
-  end
-
-  resources :question, only: [:show] do
-    member do
-      post :update_answers
+      resources :questions do
+        get :show
+        post :update
+      end
     end
   end
 end

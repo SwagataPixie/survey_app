@@ -1,0 +1,9 @@
+= simple_form_for :survey, url: create_survey_path do |f|
+  = f.input :user_email
+  = f.input :user_name
+  = f.input :tag_id, as: :select, include_blank: false, collection: @tags
+  = f.input :number_of_questions, type: :number
+  = f.datetime_field :valid_from
+  = f.datetime_field :vallid_till
+  = f.input :pass_marks, type: :number
+  = f.input :time_remaining, type: :number

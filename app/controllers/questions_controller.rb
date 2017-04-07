@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  def update_answers
+  def update
   end
 
   def show
