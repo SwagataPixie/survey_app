@@ -26,6 +26,7 @@ class AdminsController < ApplicationController
 
   def show_surveys
     @surveys = Survey.all.page(params[:page]) unless params[:survey]
+    return @survey unless params[:survey]
     params[:survey][:taken_from] ||= Time.zone.now - 2.days
     params[:survey][:taken_to] ||= Time.zone.now
     @surveys = Survey.where(

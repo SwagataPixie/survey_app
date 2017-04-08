@@ -12,10 +12,10 @@ Rails.application.routes.draw do
     post :filter_surveys, to: 'admins#filter_surveys'
   end
 
-  resources :survey, only: [:show] do
+  resources :surveys, only: [:show] do
     member do
       post :update
-      resources :questions do
+      resources :questions, only: [] do
         get :show
         post :update
       end

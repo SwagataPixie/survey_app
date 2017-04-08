@@ -20,9 +20,7 @@ class Survey < ApplicationRecord
   def score
     score = 0
     questions.each do |question|
-      choice_ids_for_answer = question.answers.where(survey_id: self.id).pluck(:id)
-      correct_choice_ids = question.choices.where(correct: true).pluck(:id)
-      score += 1 if choice_ids_for_answer == correct_choice_ids
+      score += 1 if question.is_answered_correctly?(id)
     end
     score
   end
@@ -37,5 +35,11 @@ class Survey < ApplicationRecord
 
   def is_valid?
     Time.zone.now >= valid_from && Time.zone.now <= valid_till
+  end
+
+  def remaining_question_ids_array
+    answered_question_ids_array = answers.where(survey_id: id).pluck(:question_id).uniq
+    total_question_ids_array = questions.pluck(:id)
+    total_question_ids_array - answered_question_ids_array
   end
 end

@@ -5,4 +5,13 @@ class Question < ApplicationRecord
   has_many :answer_times, through: :surveys
   has_many :choices
   has_many :answers
+
+  def is_answered_correctly?(survey_id)
+    answer_ids = answers.where(survey_id: survey_id).pluck(:choice_id).uniq
+    answer_ids == correct_answer_array
+  end
+
+  def correct_answer_array
+    choices.where(correct: true).pluck(:id).uniq
+  end
 end

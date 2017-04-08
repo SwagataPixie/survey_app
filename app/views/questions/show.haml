@@ -1,0 +1,7 @@
+%div
+  %span= @question.statement
+  %span= @survey.remaining_time
+= simple_form_for :question, url: question_update_path do |f|
+  = f.input :choice_ids, label: false, collection: @question.choices.pluck(:content, :id), wrapper_html: { class: 'form-group' }, as: :check_boxes, include_hidden: false, input_html: { multiple: true }
+  = f.hidden_field :time_taken, value: '1'
+  = f.submit 'Next'

@@ -5,12 +5,14 @@
       %th Valid From
       %th Valid Till
       %th Score
+      %th Time remaining
       %th State
     - surveys.each do |survey|
       %tr
         %td= survey.id
-        %td= survey.valid_from
-        %td= survey.valid_till
+        %td= survey.valid_from.try(:to_s)
+        %td= survey.valid_till.try(:to_s)
         %td= survey.score
+        %td= survey.remaining_time
         %td= survey.state
 %div= paginate surveys
