@@ -1,0 +1,16 @@
+%table
+  %tbody
+    %tr
+      %th ID
+      %th Valid From
+      %th Valid Till
+      %th Score
+      %th State
+    - surveys.each do |survey|
+      %tr
+        %td= survey.id
+        %td= survey.valid_from
+        %td= survey.valid_till
+        %td= survey.score
+        %td= survey.state
+%div= paginate surveys

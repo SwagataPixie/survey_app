@@ -5,6 +5,7 @@ class Survey < ApplicationRecord
   has_and_belongs_to_many :questions
   has_many :answer_times, through: :questions
   has_many :answers
+  # paginates_per 5
 
   after_commit :number_of_questions_attempted, :passed?, :state
 

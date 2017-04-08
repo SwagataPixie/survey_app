@@ -25,8 +25,14 @@ class AdminsController < ApplicationController
   end
 
   def show_surveys
-    @surveys = Survey.all unless params[:taken_from]
-    @surveys = Survey.where('taken_on < ?, taken_on > ?', params[:taken_from], params[:taken_to])
+    @surveys = Survey.all.page(params[:page]) unless params[:survey]
+    params[:survey][:taken_from] ||= Time.zone.now - 2.days
+    params[:survey][:taken_to] ||= Time.zone.now
+    @surveys = Survey.where(
+      'taken_on < ? && taken_on > ?',
+      params[:survey][:taken_from].to_datetime,
+      params[:survey][:taken_to].to_datetime
+    ).page(params[:page])
   end
 
   def new_question

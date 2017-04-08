@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get :new_question, to: 'admins#new_question'
     post :create_question, to: 'admins#create_question'
     get :show_surveys, to: 'admins#show_surveys'
+    post :filter_surveys, to: 'admins#filter_surveys'
   end
 
   resources :survey, only: [:show] do

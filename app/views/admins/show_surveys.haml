@@ -1,0 +1,5 @@
+= simple_form_for :survey, url: show_surveys_path, method: :get do |f|
+  = f.datetime_field :taken_from
+  = f.datetime_field :taken_to
+  = f.submit 'Filter'
+= render partial: 'admins/surveys', locals: { surveys: @surveys }
