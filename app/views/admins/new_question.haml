@@ -1,18 +1,39 @@
 = simple_form_for :question, url: create_question_path do |f|
   = f.input :statement, as: :text
-  = f.simple_fields_for :choice_1 do |choice|
-    = choice.input :content
-    = choice.input :correct, as: :boolean, boolean_style: :inline
-  = f.simple_fields_for :choice_2 do |choice|
-    = choice.input :content
-    = choice.input :correct, as: :boolean, boolean_style: :inline
-  = f.simple_fields_for :choice_3 do |choice|
-    = choice.input :content
-    = choice.input :correct, as: :boolean, boolean_style: :inline
-  = f.simple_fields_for :choice_4 do |choice|
-    = choice.input :content
-    = choice.input :correct, as: :boolean, boolean_style: :inline
+  .comment{ style: 'display: none;' }
+    = f.simple_fields_for :choice_1 do |choice|
+      = choice.input :content
+      = choice.hidden_field :correct, value: true
+  .class
+    = f.simple_fields_for :choice_1 do |choice|
+      = choice.input :content
+      = choice.input :correct, as: :boolean, boolean_style: :inline
+  .class
+    = f.simple_fields_for :choice_2 do |choice|
+      = choice.input :content
+      = choice.input :correct, as: :boolean, boolean_style: :inline
+  .class
+    = f.simple_fields_for :choice_3 do |choice|
+      = choice.input :content
+      = choice.input :correct, as: :boolean, boolean_style: :inline
+  .class
+    = f.simple_fields_for :choice_4 do |choice|
+      = choice.input :content
+      = choice.input :correct, as: :boolean, boolean_style: :inline
   = f.input :question_type_id, as: :select, include_blank: false, collection: @question_types,
     input_html: { id: 'question_type' }
   = f.input :tag_ids, label: 'Tags', collection: @tags, wrapper_html: { class: 'form-group' }, as: :check_boxes, include_hidden: false, input_html: { multiple: true }
   = f.submit
+
+:javascript
+  $(document).ready(function(){
+    $('#question_type').on('change', function(){
+      if ($('#question_type').val() == '3') {
+        $('.class').hide();
+        $('.comment').show();
+      } else {
+        $('.class').show();
+        $('.comment').hide();
+      };
+    });
+  })
