@@ -14,7 +14,6 @@ Rails.application.routes.draw do
 
   resources :surveys, only: [:show] do
     member do
-      post :update
       resources :questions, only: [] do
         get :show
         post :update

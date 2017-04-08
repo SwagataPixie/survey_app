@@ -6,6 +6,8 @@ class Question < ApplicationRecord
   has_many :choices
   has_many :answers
 
+  validate :question_to_answer_type
+
   def is_answered_correctly?(survey_id)
     answer_ids = answers.where(survey_id: survey_id).pluck(:choice_id).uniq
     answer_ids == correct_answer_array
@@ -13,5 +15,17 @@ class Question < ApplicationRecord
 
   def correct_answer_array
     choices.where(correct: true).pluck(:id).uniq
+  end
+
+  private
+
+  def question_to_answer_type
+    case question_type
+    when QuestionType.find_by_code('single_choice')
+      correct_choice_ids = choices.where(correct: true).pluck(:id).uniq
+      errors.add(:question_type, 'Single choice only')
+    when QuestionType.find_by_code('comment')
+      errors.add(:question_type, 'Question type is comment') unless choices.count == 1
+    end
   end
 end

@@ -2,17 +2,17 @@
   = f.input :statement, as: :text
   = f.simple_fields_for :choice_1 do |choice|
     = choice.input :content
-    = choice.input :correct, as: :radio_buttons
+    = choice.input :correct, as: :boolean, boolean_style: :inline
   = f.simple_fields_for :choice_2 do |choice|
     = choice.input :content
-    = choice.input :correct, as: :radio_buttons
+    = choice.input :correct, as: :boolean, boolean_style: :inline
   = f.simple_fields_for :choice_3 do |choice|
     = choice.input :content
-    = choice.input :correct, as: :radio_buttons
+    = choice.input :correct, as: :boolean, boolean_style: :inline
   = f.simple_fields_for :choice_4 do |choice|
     = choice.input :content
-    = choice.input :correct, as: :radio_buttons
+    = choice.input :correct, as: :boolean, boolean_style: :inline
   = f.input :question_type_id, as: :select, include_blank: false, collection: @question_types,
     input_html: { id: 'question_type' }
-  = f.select :tag_id, @tags, multiple: true, id: 'tags' #There's a plugin select-2.
+  = f.input :tag_ids, label: 'Tags', collection: @tags, wrapper_html: { class: 'form-group' }, as: :check_boxes, include_hidden: false, input_html: { multiple: true }
   = f.submit

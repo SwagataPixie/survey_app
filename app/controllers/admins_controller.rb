@@ -42,13 +42,26 @@ class AdminsController < ApplicationController
   end
 
   def create_question
-    question = Question.create(statement: params[:question][:statement])
-    (1..4).to_a.each do |number|
-      choice_attributes = params[:question]["choice_#{number}".to_sym]
-      question.choices.create(choice_attributes.to_hash)
+    Question.transaction do
+      question = Question.new(
+        statement: params[:question][:statement],
+        question_type_id: params[:question][:question_type_id]
+      )
+      (1..4).to_a.each do |number|
+        choice_attributes = params[:question]["choice_#{number}".to_sym]
+        question.choices.new(choice_attributes.to_hash)
+      end
+      params[:question][:tag_ids].each do |tag_id|
+        question.tags << Tag.find(tag_id)
+      end
+      if question.save!
+        redirect_to dashboard_path
+      else
+        raise ActiveRecord::RecordInvalid
+      end
     end
-    question.tags << Tag.find(params[:question][:tag_id])
-    redirect_to dashboard_path
+  rescue ActiveRecord::RecordInvalid => exception
+    render json: { message: exception.message }
   end
 
   private
