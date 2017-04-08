@@ -1,7 +1,5 @@
 class AdminsController < ApplicationController
-
-  def login
-  end
+  before_action :authenticate_admin!
 
   def dashboard
   end
