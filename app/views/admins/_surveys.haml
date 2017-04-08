@@ -9,7 +9,7 @@
       %th State
     - surveys.each do |survey|
       %tr
-        %td= survey.id
+        %td= link_to survey.id, show_survey_path(id: survey.id)
         %td= survey.valid_from.try(:to_s)
         %td= survey.valid_till.try(:to_s)
         %td= survey.score

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     post :create_question, to: 'admins#create_question'
     get :show_surveys, to: 'admins#show_surveys'
     post :filter_surveys, to: 'admins#filter_surveys'
+    get :show_survey, to: 'admins#show_survey'
   end
 
   resources :surveys, only: [:show] do

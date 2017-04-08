@@ -17,6 +17,10 @@ class Question < ApplicationRecord
     choices.where(correct: true).pluck(:id).uniq
   end
 
+  def answers_string
+    choices.where(correct: true).pluck(:content).join(', ')
+  end
+
   private
 
   def question_to_answer_type

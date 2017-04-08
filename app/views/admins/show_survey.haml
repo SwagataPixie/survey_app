@@ -1,0 +1,19 @@
+%div
+  %span Time remaining:
+  %span= @survey.remaining_time
+%div
+  %span Score:
+  %span= @survey.score
+%table
+  %tbody
+    %tr
+      %th Question
+      %th Correct?
+      %th Time taken
+      %th Answer(s)
+    - @survey.questions.each do |question|
+      %tr
+        %td= question.statement
+        %td= question.is_answered_correctly?(@survey.id)
+        %td= AnswerTime.where(question: question, survey: @survey).last
+        %td= question.answers_string

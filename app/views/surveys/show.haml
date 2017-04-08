@@ -1,4 +1,6 @@
-- if @next_question_id.nil?
+- unless @survey.is_valid?
+  %div You've missed it. Better luck next time
+- elsif @next_question_id.nil?
   %div Survey over! Enjoy maadi
 - else
   = link_to 'Next Question', question_show_path(id: @survey.id, question_id: @next_question_id)

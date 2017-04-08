@@ -24,6 +24,10 @@ class AdminsController < ApplicationController
     redirect_to dashboard_path
   end
 
+  def show_survey
+    @survey = Survey.find(params.require(:id))
+  end
+
   def show_surveys
     @surveys = Survey.all.page(params[:page]) unless params[:survey]
     return @survey unless params[:survey]
