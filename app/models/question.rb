@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   belongs_to :question_type
   has_many :choices
   has_many :answers, through: :surveys
+  validates :choices, :length => { :minimum => 1 }
 
   validate :question_to_answer_type
 
@@ -29,10 +30,19 @@ class Question < ApplicationRecord
   def question_to_answer_type
     case question_type
     when QuestionType.find_by_code('single_choice')
-      correct_choice_ids = choices.where(correct: true).pluck(:id).uniq
-      errors.add(:question_type, 'Single choice only')
+      number_of_correct_choices = choices.to_a.select{|c| c if c.correct?}.count
+      errors.add(:question_type, 'Single choice only') unless number_of_correct_choices == 1
+    when QuestionType.find_by_code('multiple_choice')
+      number_of_correct_choices = choices.to_a.select{|c| c if c.correct?}.count
+      errors.add(:question_type, 'Multiple Choice') unless number_of_correct_choices > 1
     when QuestionType.find_by_code('comment')
-      errors.add(:question_type, 'Question type is comment') unless choices.count == 1
+      number_of_correct_choices = choices.to_a.select{|c| c if c.correct?}.count
+      errors.add(:question_type, 'Question type is comment') unless choices.length == 1
+      errors.add(:question_type, 'Comment cannot be wrong') unless number_of_correct_choices == 1
     end
+  end
+
+  def choices_association_present?
+    choices.count > 0
   end
 end
