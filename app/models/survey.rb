@@ -3,8 +3,7 @@ class Survey < ApplicationRecord
   belongs_to :tag
   has_many :surveys
   has_and_belongs_to_many :questions
-  has_many :answer_times, through: :questions
-  has_many :answers
+  has_many :answers, through: :questions
   # paginates_per 5
 
   after_commit :number_of_questions_attempted, :passed?, :state

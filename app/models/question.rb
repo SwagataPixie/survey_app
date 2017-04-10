@@ -2,15 +2,18 @@ class Question < ApplicationRecord
   has_and_belongs_to_many :tags
   has_and_belongs_to_many :surveys
   belongs_to :question_type
-  has_many :answer_times, through: :surveys
   has_many :choices
-  has_many :answers
+  has_many :answers, through: :surveys
 
   validate :question_to_answer_type
 
   def is_answered_correctly?(survey_id)
     answer_ids = answers.where(survey_id: survey_id).pluck(:choice_id).uniq
     answer_ids == correct_answer_array
+  end
+
+  def answer_time(survey_id)
+    answers.find_by_survey_id(survey_id).answer_time
   end
 
   def correct_answer_array

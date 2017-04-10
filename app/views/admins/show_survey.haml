@@ -15,5 +15,5 @@
       %tr
         %td= question.statement
         %td= question.is_answered_correctly?(@survey.id)
-        %td= AnswerTime.where(question: question, survey: @survey).last
+        %td= question.answer_time(@survey.id)
         %td= question.answers_string
