@@ -13,14 +13,16 @@ class AdminsController < ApplicationController
     user = handle_user(params[:survey][:user_email], params[:survey][:user_name])
     questions =
       choose_questions_based_on_tag_and_number(params[:survey][:tag_id], params[:survey][:number_of_questions])
+    return false unless questions
     survey_params = params.require(:survey)
       .permit(:valid_from, :valid_till, :pass_marks, :remaining_time)
     Survey.transaction do
-      survey = Survey.create(survey_params)
-      survey.questions << questions
-      survey.user = user
-      survey.save
+      @survey = Survey.create(survey_params)
+      @survey.questions << questions
+      @survey.user = user
+      @survey.save
     end
+    SurveyMailer.send_survey_email(user, @survey)
     redirect_to dashboard_path
   end
 
